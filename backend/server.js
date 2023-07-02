@@ -11,6 +11,7 @@ const cors = require("cors");
 dotenv.config();
 connectDB();
 const app = express();
+app.use(cors()); // Enable CORS for all routes
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "https://evyatar-chatapp.web.app");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
@@ -19,7 +20,6 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
-app.use(cors()); // Enable CORS for all routes
 
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
@@ -43,13 +43,10 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin:
-      //  "http://localhost:3000",
-      "https://evyatar-chatapp.web.app",
-
-    // credentials: true,
+    origin: "https://evyatar-chatapp.web.app",
   },
 });
+
 
 io.on("connection", (socket) => {
   console.log("Connected to socket.io");
