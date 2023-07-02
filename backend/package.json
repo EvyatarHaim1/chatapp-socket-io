@@ -8,7 +8,7 @@
     "start": "nodemon server.js",
     "build": "npm i"
   },
-  "author": "Olia Krasilnikov",
+  "author": "evyatar",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,7 +19,7 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.4",
-    "nodemon": "^2.0.22",
+    "nodemon": "^1.14.9",
     "socket.io": "^4.6.2"
   }
 }
