@@ -12,7 +12,7 @@ dotenv.config();
 connectDB();
 const app = express();
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://olia-chat-app.web.app");
+  res.setHeader("Access-Control-Allow-Origin", "https://evyatar-chatapp.web.app");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
@@ -45,7 +45,7 @@ const io = require("socket.io")(server, {
   cors: {
     origin:
       //  "http://localhost:3000",
-      "https://olia-chat-app.web.app",
+      "https://evyatar-chatapp.web.app",
 
     // credentials: true,
   },
