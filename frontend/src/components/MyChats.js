@@ -23,10 +23,12 @@ const MyChats = ({ fetchAgain }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-
-      const { data } = await axios.get("/api/chat", config);
-      console.log(data)
-      setChats(data);
+      if (user._id) {
+        console.log('user id', user._id)
+        const { data } = await axios.get("/api/chat", config);
+        console.log(data)
+        setChats(data);
+      }
     } catch (error) {
       toast({
         title: "Error Occured!",
