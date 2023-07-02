@@ -11,6 +11,12 @@ const cors = require("cors");
 dotenv.config();
 connectDB();
 const app = express();
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://olia-chat-app.web.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
 
 app.use(express.json());
 app.use(cors()); // Enable CORS for all routes
@@ -19,23 +25,9 @@ app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
-// --------------------------deployment------------------------------
-
-// const __dirname1 = path.resolve();
-
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname1, "/frontend/build")));
-
-//   app.get("*", (req, res) =>
-//     res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
-//   );
-// } else {
 app.get("/", (req, res) => {
   res.send("API is running..");
 });
-// }
-
-// --------------------------deployment------------------------------
 
 // Error Handling middlewares
 app.use(notFound);
@@ -51,8 +43,10 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "https://evyatar-chatapp.web.app"
-    // "http://localhost:3000",
+    origin:
+      //  "http://localhost:3000",
+      "https://olia-chat-app.web.app",
+
     // credentials: true,
   },
 });
@@ -77,7 +71,7 @@ io.on("connection", (socket) => {
 
     chat.users.forEach((user) => {
       if (user == newMessageRecieved.sender._id) return;
-      console.log('currentUser', user, newMessageRecieved.sender._id)
+      console.log("currentUser", user, newMessageRecieved.sender._id);
       socket.in(user).emit("message recieved", newMessageRecieved);
     });
   });
