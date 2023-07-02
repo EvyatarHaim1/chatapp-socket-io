@@ -11,7 +11,11 @@ const cors = require("cors");
 dotenv.config();
 connectDB();
 const app = express();
-app.use(cors()); // Enable CORS for all routes
+
+// Enable CORS for all routes
+app.use(cors());
+
+// CORS options for specific routes
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "https://evyatar-chatapp.web.app");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
