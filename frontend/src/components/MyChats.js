@@ -20,11 +20,10 @@ const MyChats = ({ fetchAgain }) => {
     try {
       const config = {
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: `Bearer ${user?.token}`,
         },
       };
-      if (user._id) {
-        console.log('user id', user._id)
+      if (user?._id) {
         const { data } = await axios.post("/api/chat/fetchChats", user, config);
         console.log(data)
         setChats(data);
@@ -100,19 +99,19 @@ const MyChats = ({ fetchAgain }) => {
                 px={3}
                 py={2}
                 borderRadius="lg"
-                key={chat._id}
+                key={chat?._id}
               >
                 <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
+                  {!chat?.isGroupChat
+                    ? getSender(loggedUser, chat?.users)
+                    : chat?.chatName}
                 </Text>
                 {chat.latestMessage && (
                   <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.name} : </b>
-                    {chat.latestMessage.content.length > 50
-                      ? chat.latestMessage.content.substring(0, 51) + "..."
-                      : chat.latestMessage.content}
+                    <b>{chat?.latestMessage?.sender?.name} : </b>
+                    {chat?.latestMessage?.content?.length > 50
+                      ? chat?.latestMessage?.content.substring(0, 51) + "..."
+                      : chat?.latestMessage?.content}
                   </Text>
                 )}
               </Box>
