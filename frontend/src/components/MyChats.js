@@ -25,7 +25,7 @@ const MyChats = ({ fetchAgain }) => {
       };
       if (user._id) {
         console.log('user id', user._id)
-        const { data } = await axios.get("/api/chat", config);
+        const { data } = await axios.post("/api/chat/fetchChats", user, config);
         console.log(data)
         setChats(data);
       }
@@ -43,7 +43,7 @@ const MyChats = ({ fetchAgain }) => {
 
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
-    if (loggedUser) fetchChats();
+    fetchChats();
     // eslint-disable-next-line
   }, [fetchAgain]);
 
