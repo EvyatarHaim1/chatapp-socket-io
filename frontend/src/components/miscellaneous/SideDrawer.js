@@ -106,7 +106,7 @@ function SideDrawer() {
       };
       const { data } = await axios.post(`/api/chat`, { userId }, config);
 
-      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      if (!chats.find((c) => c?._id === data?._id)) setChats([data, ...chats]);
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
@@ -157,7 +157,7 @@ function SideDrawer() {
               {!notification.length && "No New Messages"}
               {notification.map((notif) => (
                 <MenuItem
-                  key={notif._id}
+                  key={notif?._id}
                   onClick={() => {
                     setSelectedChat(notif.chat);
                     setNotification(notification.filter((n) => n !== notif));
@@ -175,7 +175,7 @@ function SideDrawer() {
               <Avatar
                 size="sm"
                 cursor="pointer"
-                name={user.name}
+                name={user?.name}
                 src={user.pic}
               />
             </MenuButton>
@@ -209,9 +209,9 @@ function SideDrawer() {
             ) : (
               searchResult?.map((user) => (
                 <UserListItem
-                  key={user._id}
+                  key={user?._id}
                   user={user}
-                  handleFunction={() => accessChat(user._id)}
+                  handleFunction={() => accessChat(user?._id)}
                 />
               ))
             )}

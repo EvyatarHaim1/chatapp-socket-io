@@ -17,7 +17,7 @@ const accessChat = asyncHandler(async (req, res) => {
   var isChat = await Chat.find({
     isGroupChat: false,
     $and: [
-      { users: { $elemMatch: { $eq: req.user._id } } },
+      { users: { $elemMatch: { $eq: req.user?._id } } },
       { users: { $elemMatch: { $eq: userId } } },
     ],
   })
@@ -35,12 +35,12 @@ const accessChat = asyncHandler(async (req, res) => {
     var chatData = {
       chatName: "sender",
       isGroupChat: false,
-      users: [req.user._id, userId],
+      users: [req.user?._id, userId],
     };
 
     try {
       const createdChat = await Chat.create(chatData);
-      const FullChat = await Chat.findOne({ _id: createdChat._id }).populate(
+      const FullChat = await Chat.findOne({ _id: createdChat?._id }).populate(
         "users",
         "-password"
       );
@@ -58,7 +58,7 @@ const accessChat = asyncHandler(async (req, res) => {
 const fetchChats = asyncHandler(async (req, res) => {
   const user = req.body
   try {
-    Chat.find({ users: { $elemMatch: { $eq: user._id } } })
+    Chat.find({ users: { $elemMatch: { $eq: user?._id } } })
       .populate("users", "-password")
       .populate("groupAdmin", "-password")
       .populate("latestMessage")
@@ -80,7 +80,7 @@ const fetchChats = asyncHandler(async (req, res) => {
 //@route           POST /api/chat/group
 //@access          Protected
 const createGroupChat = asyncHandler(async (req, res) => {
-  if (!req.body.users || !req.body.name) {
+  if (!req.body.users || !req.body?.name) {
     return res.status(400).send({ message: "Please Fill all the feilds" });
   }
 
@@ -96,13 +96,13 @@ const createGroupChat = asyncHandler(async (req, res) => {
 
   try {
     const groupChat = await Chat.create({
-      chatName: req.body.name,
+      chatName: req.body?.name,
       users: users,
       isGroupChat: true,
       groupAdmin: req.user,
     });
 
-    const fullGroupChat = await Chat.findOne({ _id: groupChat._id })
+    const fullGroupChat = await Chat.findOne({ _id: groupChat?._id })
       .populate("users", "-password")
       .populate("groupAdmin", "-password");
 

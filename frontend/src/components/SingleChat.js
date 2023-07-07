@@ -53,13 +53,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `/api/message/${selectedChat._id}`,
+        `/api/message/${selectedChat?._id}`,
         config
       );
       setMessages(data);
       setLoading(false);
 
-      socket.emit("join chat", selectedChat._id);
+      socket.emit("join chat", selectedChat?._id);
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -74,7 +74,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
-      socket.emit("stop typing", selectedChat._id);
+      socket.emit("stop typing", selectedChat?._id);
       try {
         const config = {
           headers: {
@@ -128,7 +128,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on("message recieved", (newMessageRecieved) => {
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
-        selectedChatCompare._id !== newMessageRecieved.chat._id
+        selectedChatCompare?._id !== newMessageRecieved.chat?._id
       ) {
         if (!notification.includes(newMessageRecieved)) {
           setNotification([newMessageRecieved, ...notification]);
@@ -148,7 +148,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     if (!typing) {
       setTyping(true);
-      socket.emit("typing", selectedChat._id);
+      socket.emit("typing", selectedChat?._id);
     }
     let lastTypingTime = new Date().getTime();
     var timerLength = 3000;
@@ -156,7 +156,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       var timeNow = new Date().getTime();
       var timeDiff = timeNow - lastTypingTime;
       if (timeDiff >= timerLength && typing) {
-        socket.emit("stop typing", selectedChat._id);
+        socket.emit("stop typing", selectedChat?._id);
         setTyping(false);
       }
     }, timerLength);
